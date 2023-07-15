@@ -1,6 +1,6 @@
-import c1 from '../../assets/moby-dick.png';
-import c2 from '../..//assets/holmes.png';
-import c3 from '../../assets/hobbit.png';
+import c1 from '../assets/moby-dick.png';
+import c2 from '../assets/holmes.png';
+import c3 from '../assets/hobbit.png';
 export default function Category() {
     const categories = [
         {

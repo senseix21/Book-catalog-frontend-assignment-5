@@ -1,6 +1,6 @@
-import Hero from '../components/ui/Hero'
-import Category from '../components/ui/Category'
-import Stats from '../components/ui/Stats'
+import Hero from '../components/Hero'
+import Category from '../components/Category'
+import Stats from '../components/Stats'
 
 export default function Home() {
     return (
