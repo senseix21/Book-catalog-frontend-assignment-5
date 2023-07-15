@@ -2,7 +2,7 @@ import heroImg from '../../assets/hero-img1.png';
 
 export default function Hero() {
     return (
-        <div className=" bg-base-200 px-16">
+        <div className=" bg-base-200 lg:px-16">
             <div className="lg:flex ">
                 <img src={heroImg} className=" rounded-lg " />
                 <div className='ml-10'>
@@ -11,7 +11,7 @@ export default function Hero() {
                         <p className="py-6">
                             Welcome to OwlBooks, where pages turn into adventures. Immerse yourself in captivating stories, discover hidden gems, and let the magic of literature transport you to extraordinary worlds of imagination.
                         </p>
-                        <button className="btn btn-primary">Get Started</button>
+                        <button className="btn btn-neutral">Get Started</button>
                     </div>
                 </div>
             </div>
