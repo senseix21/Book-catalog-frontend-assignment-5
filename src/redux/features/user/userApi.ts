@@ -4,9 +4,16 @@ import { api } from "../../api/apiSlice";
 const bookApi = api.injectEndpoints({
     endpoints: (builder) => ({
 
-        loginUser: builder.mutation({
+        createUser: builder.mutation({
             query: (data) => ({
                 url: `/users/create-user`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
+        loginUser: builder.mutation({
+            query: (data) => ({
+                url: `/auth/login`,
                 method: 'POST',
                 body: data,
             }),
@@ -18,8 +25,8 @@ const bookApi = api.injectEndpoints({
 
 
 export const {
-    useLoginUserMutation,
-    endpoints: { loginUser }
+    useCreateUserMutation,
+    useLoginUserMutation
 
 } = bookApi;
 
