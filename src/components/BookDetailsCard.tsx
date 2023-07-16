@@ -1,11 +1,15 @@
-import React from 'react'
 import { IBook } from '../types/book'
+import { Link } from 'react-router-dom'
 
 type IProps = {
     book: IBook
 }
 
+
 export default function BookDetailsCard({ book }: IProps) {
+    const reviews = (book?.reviews)
+
+
 
     return (
         <div className='lg:flex md:flex justify-between lg:mx-24 mt-5 mb-5 rounded-md'>
@@ -14,20 +18,34 @@ export default function BookDetailsCard({ book }: IProps) {
                 <h2 className='text-2xl font-bold text-left'>{book?.title}</h2>
 
                 <div className='flex items-center justify-start mx-1 mt-3  font-medium' >
-                    <p>Written by:{book?.author}</p>
+                    <p>Written by:<em> {book?.author}</em></p>
                 </div>
                 <div className='text-left mt-4'>
                     <p><span className='font-bold'>Genre:</span> {book?.genre}</p>
                     <p><span className='font-bold'>Published on:</span> {book?.publicationYear}</p>
                     <p className='text-left'><span className='font-bold'>Description:</span>
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis ante ut pharetra finibus.
-                        Pellentesque sollicitudin elit in risus varius, sed euismod felis dignissim. Vivamus ultrices diam eget augue tristique,
-                        id ullamcorper metus lacinia. Sed at bibendum nunc, vitae dapibus purus."
+                        <em>
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis ante ut pharetra finibus.
+                            Pellentesque sollicitudin elit in risus varius, sed euismod felis dignissim. Vivamus ultrices diam eget augue tristique,
+                            id ullamcorper metus lacinia. Sed at bibendum nunc, vitae dapibus purus."
+                        </em>
                     </p>
+                    <div>
+                        <h3 className='font-bold'>Reviews:</h3>
+                        {
+                            reviews?.map((review, index) => {
+                                return (
+                                    <div key={index} className=' justify-start mx-1 mt-3'>
+                                        <em>"{review}"</em>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
                 <div className='my-5 mx-2 '>
                     <button className="btn btn-accent">Add to wishlist</button>
-                    <button className="btn btn-primary">Edit Book</button>
+                    <Link to={`/editbook/${book?._id}`}><button className="btn btn-primary">Edit Book</button></Link>
                     <button className="btn btn-error">Delete Book</button>
 
                 </div>

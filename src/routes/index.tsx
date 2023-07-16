@@ -8,6 +8,7 @@ import Signin from "../page/Signin";
 import Signup from "../page/Signup";
 import NotFound from "../page/NotFound";
 import BookDetails from "../page/BookDetails";
+import EditBook from "../page/EditBook";
 const routes = createBrowserRouter([
     {
         path: "/",
@@ -30,6 +31,10 @@ const routes = createBrowserRouter([
                 element: <BookDetails />
             }
             ,
+            {
+                path: '/editbook/:id',
+                element: <EditBook />
+            },
             {
                 path: '/wishList',
                 element: <WishList />
