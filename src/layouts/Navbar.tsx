@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import { PiBookFill, PiUser } from 'react-icons/pi'
+import { useAppDispatch, useAppSelector } from "../redux/hook";
 
 export default function Navbar() {
+    const { books } = useAppSelector(state => state.wishlist)
+    console.log(books);
+
+
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">
@@ -35,12 +40,20 @@ export default function Navbar() {
                                 <span className="badge badge-sm indicator-item">8</span>
                             </div>
                         </label>
-                        <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
+                        <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-64 bg-base-100 shadow">
                             <div className="card-body">
-                                <span className="font-bold text-lg">8 Items</span>
-                                <span className="text-info">Subtotal: $999</span>
+                                {
+                                    books?.map((book) =>
+                                        <div className="flex items-center">
+                                            <img src={book?.cover_img} width={60} alt="" />
+                                            <h3 className="text-md font-bold">{book?.title}</h3>
+                                        </div>
+                                    )
+                                }
                                 <div className="card-actions">
-                                    <button className="btn btn-primary btn-block">View cart</button>
+                                    <Link to={'/wishlist'}>
+                                        <button className="btn btn-primary btn-block">View Wishlist</button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

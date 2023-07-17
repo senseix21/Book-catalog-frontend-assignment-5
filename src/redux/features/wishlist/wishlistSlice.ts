@@ -1,5 +1,19 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IBook } from "../../../types/book";
+
+interface IBook {
+    admin: string;
+    author: string;
+    cover_img: string;
+    createdAt: string;
+    genre: string;
+    id: string;
+    publicationYear: string;
+    reviews: string[];
+    title: string;
+    updatedAt: string;
+    __v: number;
+    _id: string;
+}
 
 
 interface IWishlist {
@@ -15,8 +29,8 @@ const wishlistSlice = createSlice({
     initialState,
     reducers: {
         addToWishlist: (state, action: PayloadAction<IBook>) => {
-            const existing = state.books.find(book => book._id !== action.payload._id);
-            if (existing) {
+            const existing = state.books.find(book => book._id == action.payload._id);
+            if (!existing) {
                 state.books.push({ ...action.payload })
             }
         },
