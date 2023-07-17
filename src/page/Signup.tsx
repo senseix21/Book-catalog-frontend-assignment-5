@@ -1,5 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreateUserMutation } from "../redux/features/user/userApi";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 interface IFormInput {
     userName: string;
@@ -8,25 +10,40 @@ interface IFormInput {
 }
 
 export default function Signup() {
-    const [createUser] = useCreateUserMutation()
+    const [createUser, isSuccess] = useCreateUserMutation()
+    const success = () => toast('User created in successfully.');
+    const error = () => toast('Couldnt create user.');
+
     const { register, handleSubmit } = useForm<IFormInput>()
-    const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        console.log(data)
-        createUser(data)
+    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+        try {
+            const createuser = await createUser(data)
+            console.log(createuser)
+            if (isSuccess.isSuccess == true) {
+                success()
+            }
+            else if (isSuccess.isSuccess == false) {
+                error()
+            }
+
+
+        } catch (error) {
+            console.error(error)
+        }
     }
     return (
         <div>
             <div className="text-center">
                 <h1 className="text-5xl font-bold">Login now!</h1>
             </div>
-
+            <Toaster />
             <form onSubmit={handleSubmit(onSubmit)} className="card flex-shrink-0 mx-auto w-full max-w-sm shadow-2xl bg-base-100">
                 <div className="card-body">
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Username</span>
                         </label>
-                        <input {...register("userName")} type="text" placeholder="text" className="input input-bordered" />
+                        <input {...register("userName")} type="text" placeholder="username" className="input input-bordered" />
                     </div>
                     <div className="form-control">
                         <label className="label">

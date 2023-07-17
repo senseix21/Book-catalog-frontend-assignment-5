@@ -1,31 +1,48 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from 'react'
+import toast, { Toaster } from 'react-hot-toast';
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLoginUserMutation } from '../redux/features/user/userApi';
+
+
 interface IFormInput {
     email: string;
     password: string;
 }
+
 export default function Signup() {
-    const [loginUser] = useLoginUserMutation()
+    const [loginUser, isSuccess] = useLoginUserMutation()
+
+    const success = () => toast('User Logged in successfully.');
+    const error = () => toast('User couldnt logged in.');
 
     const { register, handleSubmit } = useForm<IFormInput>()
     const onSubmit: SubmitHandler<IFormInput> = async (loginData) => {
-        const response = await loginUser(loginData)
-        const { data } = response
-        const accessToken = data.data
-        console.log(accessToken)
-        // Set access token in local storage
-        localStorage.setItem('accessToken', accessToken.accessToken);
-        console.log(accessToken);
+        try {
+            const response = await loginUser(loginData)
+            const { data } = response
+            const accessToken = data.data
 
+            // Set access token in local storage
+            localStorage.setItem('accessToken', accessToken.accessToken);
+
+
+            if (isSuccess.isSuccess == true) {
+                success()
+                console.log(isSuccess.isSuccess)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
+
+
     return (
         <div>
             <div className="text-center">
                 <h1 className="text-5xl font-bold">Login now!</h1>
             </div>
-
+            <Toaster />
             <form onSubmit={handleSubmit(onSubmit)} className="card flex-shrink-0 mx-auto w-full max-w-sm shadow-2xl bg-base-100">
                 <div className="card-body">
 
