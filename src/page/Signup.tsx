@@ -10,7 +10,7 @@ interface IFormInput {
 }
 
 export default function Signup() {
-    const [createUser, isSuccess] = useCreateUserMutation()
+    const [createUser] = useCreateUserMutation()
     const success = () => toast('User created in successfully.');
 
     const { register, handleSubmit } = useForm<IFormInput>()
@@ -18,9 +18,8 @@ export default function Signup() {
         try {
             const createuser = await createUser(data)
             console.log(createuser)
-            if (isSuccess.isSuccess == true) {
-                success()
-            }
+            success()
+
 
 
 

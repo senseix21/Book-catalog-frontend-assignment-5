@@ -14,7 +14,7 @@ interface IFormInput {
 
 export default function Signup() {
     const dispatch = useAppDispatch();
-    const [loginUser, isSuccess] = useLoginUserMutation();
+    const [loginUser] = useLoginUserMutation();
     const navigate = useNavigate();
 
     const success = () => toast('User Logged in successfully.');
@@ -25,12 +25,13 @@ export default function Signup() {
             const response = await loginUser(loginData)
 
             if ('data' in response) {
+                success()
                 const { data } = response
-                console.log(data.data.accessToken)
                 const { userName, email, accessToken } = data.data
 
                 // Set access token in local storage
                 localStorage.setItem('accessToken', accessToken);
+                navigate('/allBooks')
 
                 // Set access token as header for future requests
                 const headers = new Headers()
@@ -42,10 +43,7 @@ export default function Signup() {
                 }));
             }
 
-            if (isSuccess.isSuccess == true) {
-                success()
-                navigate('/allBooks');
-            }
+
 
 
         } catch (error) {

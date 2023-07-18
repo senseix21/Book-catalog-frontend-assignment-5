@@ -1,6 +1,6 @@
 import Hero from '../components/Hero'
 import Category from '../components/Category'
-import { useGetBooksQuery } from '../redux/features/books/bookApi';
+import { useGetBookQuery } from '../redux/features/books/bookApi';
 import { IBooks } from '../types/book';
 import BookCard from '../components/BookCard';
 import bgImg from '../assets/pexels-cottonbro-studio-5095897.jpg';
@@ -8,8 +8,8 @@ import Featured from '../components/Featured';
 
 
 export default function Home() {
-    const { data } = useGetBooksQuery(undefined)
-    const booksData = data?.data;
+    const { data } = useGetBookQuery(undefined)
+    const booksData = data?.data.slice(0, 10);
     return (
         <>
             <Hero />
