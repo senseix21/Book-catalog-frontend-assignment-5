@@ -18,7 +18,6 @@ export default function Signup() {
     const navigate = useNavigate();
 
     const success = () => toast('User Logged in successfully.');
-    const error = () => toast('User couldnt logged in.');
 
     const { register, handleSubmit } = useForm<IFormInput>()
     const onSubmit: SubmitHandler<IFormInput> = async (loginData) => {
@@ -46,8 +45,6 @@ export default function Signup() {
             if (isSuccess.isSuccess == true) {
                 success()
                 navigate('/allBooks');
-            } else {
-                error()
             }
 
 

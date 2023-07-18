@@ -12,7 +12,6 @@ interface IFormInput {
 export default function Signup() {
     const [createUser, isSuccess] = useCreateUserMutation()
     const success = () => toast('User created in successfully.');
-    const error = () => toast('Couldnt create user.');
 
     const { register, handleSubmit } = useForm<IFormInput>()
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
@@ -22,9 +21,7 @@ export default function Signup() {
             if (isSuccess.isSuccess == true) {
                 success()
             }
-            else if (isSuccess.isSuccess == false) {
-                error()
-            }
+
 
 
         } catch (error) {
