@@ -34,7 +34,7 @@ export default function Navbar() {
                         <li><Link to={'/addNew'}>AddNew</Link></li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+                <button className="btn btn-ghost normal-case text-xl">OwlBooks</button>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
@@ -89,12 +89,12 @@ export default function Navbar() {
                                     <>
                                         <h3 className="text-xl font-medium mx-2">{user?.userName}</h3>
                                         <li>
-                                            <a className="justify-between">
+                                            <span className="justify-between">
                                                 <Link to={'/mybooks'}>MyBooks</Link>
-                                            </a>
-                                            <a className="justify-between">
+                                            </span>
+                                            <span className="justify-between">
                                                 <button onClick={() => handlelogOut()}>Logout</button>
-                                            </a>
+                                            </span>
 
                                         </li>
                                     </>

@@ -4,6 +4,8 @@ import { useAppDispatch } from '../redux/hook'
 import { IBooks } from '../types/book'
 import { Link } from 'react-router-dom'
 import { useDeleteBookMutation } from '../redux/features/books/bookApi'
+import { useEffect, useRef } from 'react'
+import ReviewForm from './ReviewForm'
 
 type IProps = {
     book: IBooks
@@ -14,7 +16,7 @@ export default function BookDetailsCard({ book }: IProps) {
     const [deleteBook] = useDeleteBookMutation();
     const wishListSuccess = () => toast('Added to wishlist successfully.')
     const deleteSuccess = () => toast('Deleted book successfully.')
-    const deleteError = () => toast('Couldnt delete book.')
+    const deleteError = () => toast('Book couldnt be deleted .')
     const reviews = (book?.reviews)
     const dispatch = useAppDispatch();
 
@@ -28,10 +30,9 @@ export default function BookDetailsCard({ book }: IProps) {
             console.log(response.data);
             if (response.data.success === true) {
                 deleteSuccess();
+            } else {
+                deleteError()
             }
-        }
-        else {
-            deleteError();
         }
     }
 
@@ -88,6 +89,7 @@ export default function BookDetailsCard({ book }: IProps) {
                     </div>
 
                 </div>
+                <ReviewForm id={book?.id} />
             </div>
 
         </div>

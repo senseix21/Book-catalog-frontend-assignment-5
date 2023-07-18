@@ -1,3 +1,4 @@
+import { json } from "react-router-dom";
 import { api } from "../../api/apiSlice";
 
 const bookApi = api.injectEndpoints({
@@ -13,6 +14,28 @@ const bookApi = api.injectEndpoints({
                 url: `books/${id}`,
                 method: 'PATCH',
                 body: JSON.stringify(updatedData),
+                headers: {
+                    Authorization: `${localStorage.getItem('accessToken')}`,
+
+                }
+            }),
+        }),
+        addReview: builder.mutation({
+            query: ({ id, review }) => ({
+                url: `reviews/create-review/${id}`,
+                method: 'POST',
+                body: (review),
+                headers: {
+                    Authorization: `${localStorage.getItem('accessToken')}`,
+
+                }
+            }),
+        }),
+        addNewBook: builder.mutation({
+            query: (data) => ({
+                url: `books/create-book`,
+                method: 'POST',
+                body: data,
                 headers: {
                     Authorization: `${localStorage.getItem('accessToken')}`,
 
@@ -36,6 +59,8 @@ export const {
     useGetBooksQuery,
     useGetSingleBookQuery,
     useEditBookMutation,
-    useDeleteBookMutation
+    useDeleteBookMutation,
+    useAddNewBookMutation,
+    useAddReviewMutation
 } = bookApi;
 
