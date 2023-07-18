@@ -10,6 +10,7 @@ import EditBook from "../page/EditBook";
 import MyBooks from "../page/MyBooks";
 import Signin from "../page/Signin";
 import Signup from "../page/Signup";
+import PrivateRoute from "./PrivateRoute";
 const routes = createBrowserRouter([
     {
         path: "/",
@@ -29,24 +30,24 @@ const routes = createBrowserRouter([
             },
             {
                 path: '/books/:id',
-                element: <BookDetails />
+                element: <PrivateRoute> <BookDetails /></PrivateRoute>
             }
             ,
             {
                 path: '/editbook/:id',
-                element: <EditBook />
+                element: <PrivateRoute><EditBook /></PrivateRoute>
             },
             {
                 path: '/wishList',
-                element: <WishList />
+                element: <PrivateRoute><WishList /></PrivateRoute>
             },
             {
                 path: '/mybooks',
-                element: <MyBooks />
+                element: <PrivateRoute> <MyBooks /></PrivateRoute>
             },
             {
                 path: '/addNew',
-                element: <AddNew />
+                element: <PrivateRoute><AddNew /></PrivateRoute>
             },
             {
                 path: "/signin",

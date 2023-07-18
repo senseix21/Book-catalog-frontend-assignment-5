@@ -1,15 +1,14 @@
 import Hero from '../components/Hero'
 import Category from '../components/Category'
-import Stats from '../components/Stats'
 import { useGetBooksQuery } from '../redux/features/books/bookApi';
-import { IBook } from '../types/book';
+import { IBooks } from '../types/book';
 import BookCard from '../components/BookCard';
 import bgImg from '../assets/pexels-cottonbro-studio-5095897.jpg';
 import Featured from '../components/Featured';
 
 
 export default function Home() {
-    const { data, isLoading, isError } = useGetBooksQuery(undefined)
+    const { data } = useGetBooksQuery(undefined)
     const booksData = data?.data;
     return (
         <>
@@ -26,7 +25,7 @@ export default function Home() {
                         <img src={bgImg} alt="" width={250} className='lg:m-6 mx-auto' />
                     </div>
                 </div>
-                {booksData?.map((book: IBook) => (
+                {booksData?.map((book: IBooks) => (
                     <BookCard key={book._id} booksData={book} />
                 ))}
             </div>

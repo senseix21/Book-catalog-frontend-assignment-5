@@ -1,4 +1,3 @@
-import React from 'react'
 import { useAppSelector } from '../redux/hook'
 import WishlishCard from '../components/WishlishCard'
 import WishlistFeatured from '../components/WishlistFeatured'

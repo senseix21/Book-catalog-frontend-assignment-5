@@ -4,8 +4,7 @@ import { useAppDispatch } from '../redux/hook'
 import { IBooks } from '../types/book'
 import { Link } from 'react-router-dom'
 import { useDeleteBookMutation } from '../redux/features/books/bookApi'
-import { useEffect, useRef } from 'react'
-import ReviewForm from './ReviewForm'
+import ReviewForm from './ReviewForm';
 
 type IProps = {
     book: IBooks

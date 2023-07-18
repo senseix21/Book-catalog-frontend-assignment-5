@@ -1,9 +1,8 @@
 import BookCard from '../components/BookCard';
-import { useGetBooksQuery } from '../redux/features/books/bookApi';
-import { IBook } from '../types/book';
+import { useGetBooksQuery, } from '../redux/features/books/bookApi';
+import { IBooks } from '../types/book';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState, useEffect } from 'react'
-import fetchBooks from '../utils/fetchBooks';
+import { useState } from 'react'
 
 export enum GenreEnum {
     Genre = "Genre",
@@ -32,10 +31,7 @@ export default function AllBooks() {
     const [searchText, setSearchText] = useState('');
     const [genre, setGenre] = useState<GenreEnum>();
     const [year, setYear] = useState('');
-    const [books, setBooks] = useState([]);
 
-    const { data, isLoading, isError } = useGetBooksQuery(undefined)
-    const booksData = data?.data;
 
 
     const { register, handleSubmit } = useForm<IFormInput>()
@@ -43,26 +39,29 @@ export default function AllBooks() {
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         const { searchText, genre, year } = (data);
-        console.log(searchText, genre, year[0]);
         setSearchText(searchText);
-        setGenre(genre);
-        setYear(year[0]);
+        if (genre !== 'Genre') {
+            setGenre(genre)
+        }
+        setYear(year);
 
     }
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetchBooks(searchText, genre, year);
-                setBooks(response);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+    const options = {
+        searchText: searchText,
+        genre: genre,
+        PublicationYear: year
+    }
+    console.log(options, 'options');
 
-        fetchData();
-    }, [searchText, genre, year]);
+    console.log(searchText)
+    const { data, isSuccess, isError } = useGetBooksQuery({
+        searchTerm: searchText,
+        genre: genre,
+        publicationYear: year
+    });
 
-    console.log(books, 'items')
+    const booksData = data?.data;
+    console.log(isError, isSuccess, data)
 
 
 
@@ -88,7 +87,7 @@ export default function AllBooks() {
                         </div>
 
                         <select {...register("genre")} className="select select-bordered">
-                            <option disabled selected>Genre</option>
+                            <option selected>Genre</option>
                             <option value="mystery">Mystery</option>
                             <option value="horror">Horror</option>
                             <option value="thriller">Thriller</option>
@@ -118,7 +117,7 @@ export default function AllBooks() {
 
             </div>
             <div className="mx-auto col-span-9 grid lg:grid-cols-3">
-                {booksData?.map((book: IBook) => (
+                {booksData?.map((book: IBooks) => (
                     <BookCard key={book._id} booksData={book} />
                 ))}
             </div>

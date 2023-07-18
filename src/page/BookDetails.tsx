@@ -6,7 +6,10 @@ import BookDetailsCard from '../components/BookDetailsCard'
 export default function BookDetails() {
     const { id } = useParams()
     console.log(id)
-    const { data, isError, isLoading } = useGetSingleBookQuery(id)
+    const { data } = useGetSingleBookQuery(id, {
+        refetchOnMountOrArgChange: true,
+        pollingInterval: 30000,
+    })
     console.log(data)
 
 

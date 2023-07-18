@@ -1,7 +1,7 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useParams } from 'react-router-dom'
 import { useEditBookMutation, useGetSingleBookQuery } from '../redux/features/books/bookApi'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast';
 
 interface IFormInput {
     title: string,
@@ -13,62 +13,56 @@ interface IFormInput {
 export default function EditBook() {
     const { id } = useParams();
     const { data } = useGetSingleBookQuery(id)
-    const bookData = data?.data;
-    console.log(bookData);
-    const [editbook] = useEditBookMutation()
-
+    const img = data?.data.cover_img;
+    const [editBook] = useEditBookMutation();
+    const success = () => toast('Book updated successfully')
 
     const { register, handleSubmit } = useForm<IFormInput>()
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         console.log(data)
-        const options = {
-            id,
-            data
-        }
-        const response = await editbook(options)
-        const token = localStorage.getItem('accessToken')
-        console.log(token)
+        const options = { id: id, updatedData: data }
+        const response = await editBook(options)
         if ('data' in response) {
             console.log(response)
+            success()
         }
+
     }
 
 
 
+
     return (
-        <div className='px-16 lg:flex items-center mx-auto'>
-            <img src={bookData?.cover_img} width={300} alt="" />
-
+        <div className='px-5 lg:flex mx-auto'>
+            <div className="text-center">
+                <img src={img} width={300} alt="" />
+            </div>
             <form onSubmit={handleSubmit(onSubmit)} className="card flex-shrink-0 w-full max-w-sm mx-auto shadow-2xl bg-base-100">
-                <div className="text-center">
-                    <h1 className="text-5xl font-bold">Edit Book now!</h1>
-                </div>
                 <div className="card-body">
-
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Title</span>
                         </label>
-                        <input  {...register("title")} value={bookData?.title} type="text" className="input input-bordered" />
+                        <input    {...register("title")} type="text" className="input input-bordered" />
                     </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Author</span>
                         </label>
-                        <input  {...register("author")} value={bookData?.author} type="text" className="input input-bordered" />
+                        <input   {...register("author")} type="text" className="input input-bordered" />
                     </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Published on</span>
                         </label>
-                        <input  {...register("publicationYear")} value={bookData?.publicationYear} type="text" className="input input-bordered" />
+                        <input type="text" className="input input-bordered" />
                     </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Genre</span>
                         </label>
-                        <select  {...register("genre")} value={bookData?.genre} className="input input-bordered" >
-                            <option disabled selected>Genre</option>
+                        <select  {...register("genre")} className="input input-bordered" >
+                            <option disabled defaultValue={"Genre"}>Genre</option>
                             <option value="mystery">Mystery</option>
                             <option value="horror">Horror</option>
                             <option value="thriller">Thriller</option>
@@ -79,7 +73,7 @@ export default function EditBook() {
                     </div>
 
                     <div className="form-control mt-6">
-                        <button className="btn btn-primary">Submit </button>
+                        <button className="btn btn-primary">Submit</button>
                     </div>
                 </div>
             </form>

@@ -1,13 +1,27 @@
-import { json } from "react-router-dom";
 import { api } from "../../api/apiSlice";
 
 const bookApi = api.injectEndpoints({
     endpoints: (builder) => ({
+
         getBooks: builder.query({
-            query: () => '/books'
+            query: (params) => {
+                const { searchTerm, genre, publicationYear } = params;
+                let url = `books/?searchTerm=${searchTerm}`;
+
+                if (genre) {
+                    url = `books/?searchTerm=${searchTerm}&genre=${genre}`;
+                }
+
+                if (publicationYear) {
+                    url = `books/?searchTerm=${searchTerm}&publicationYear=${publicationYear}`;
+                }
+
+                return url;
+            },
         }),
         getSingleBook: builder.query({
-            query: (id) => `books/${id}`
+            query: (id) => `books/${id}`,
+            providesTags: ['reviews']
         }),
         editBook: builder.mutation({
             query: ({ id, updatedData }) => ({
@@ -30,6 +44,7 @@ const bookApi = api.injectEndpoints({
 
                 }
             }),
+            invalidatesTags: ['reviews']
         }),
         addNewBook: builder.mutation({
             query: (data) => ({
@@ -61,6 +76,6 @@ export const {
     useEditBookMutation,
     useDeleteBookMutation,
     useAddNewBookMutation,
-    useAddReviewMutation
+    useAddReviewMutation,
 } = bookApi;
 

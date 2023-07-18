@@ -26,12 +26,7 @@ export default function AddNew() {
         if ('data' in response) {
             console.log(response.data)
 
-            if (response.data.data == true) {
-                success
-            }
-            else if (response.data.data == false) {
-                error()
-            }
+            success()
         }
         else {
             error()

@@ -2,9 +2,9 @@
 import toast, { Toaster } from 'react-hot-toast';
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLoginUserMutation } from '../redux/features/user/userApi';
-import { useAppDispatch, useAppSelector } from '../redux/hook';
-import { RootState } from '../redux/store';
+import { useAppDispatch } from '../redux/hook';
 import { setUser } from '../redux/features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 interface IFormInput {
@@ -14,7 +14,8 @@ interface IFormInput {
 
 export default function Signup() {
     const dispatch = useAppDispatch();
-    const [loginUser, isSuccess] = useLoginUserMutation()
+    const [loginUser, isSuccess] = useLoginUserMutation();
+    const navigate = useNavigate();
 
     const success = () => toast('User Logged in successfully.');
     const error = () => toast('User couldnt logged in.');
@@ -38,13 +39,15 @@ export default function Signup() {
 
                 dispatch(setUser({
                     userName: userName, email: email,
-                    accessToken: accessToken
+                    accessToken: accessToken, isLoading: false
                 }));
             }
 
             if (isSuccess.isSuccess == true) {
                 success()
-                console.log(isSuccess.isSuccess)
+                navigate('/allBooks');
+            } else {
+                error()
             }
 
 

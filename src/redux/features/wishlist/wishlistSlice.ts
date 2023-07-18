@@ -42,7 +42,9 @@ const wishlistSlice = createSlice({
         },
         removeFromWishlist: (state, action: PayloadAction<IBook>) => {
             state.books = state.books.filter(book => book._id !== action.payload._id);
-            state.total -= 1
+            if (state.total > 0) {
+                state.total -= 1
+            }
 
         },
     },

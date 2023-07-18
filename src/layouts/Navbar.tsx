@@ -15,7 +15,6 @@ export default function Navbar() {
     const handlelogOut = () => {
         localStorage.clear();
         clearPersist();
-        window.location.reload();
         navigate('/signin');
     }
 

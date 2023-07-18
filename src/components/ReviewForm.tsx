@@ -1,7 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import { useAddReviewMutation } from '../redux/features/books/bookApi';
-import { useParams } from 'react-router-dom';
 
 interface IFormInput {
     review?: string

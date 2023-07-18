@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { api } from "./api/apiSlice";
 import wishlistReducer from './features/wishlist/wishlistSlice';
 import myBookReducer from './features/mybooks/mybooksSlice';
