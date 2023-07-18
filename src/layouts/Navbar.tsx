@@ -1,11 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PiBookFill, PiUser } from 'react-icons/pi'
 import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { removeFromWishlist } from "../redux/features/wishlist/wishlistSlice";
+import { RootState } from "../redux/store";
+import { clearPersist } from "../utils/helpers";
 
 export default function Navbar() {
-    const { books } = useAppSelector(state => state.wishlist)
-    console.log(books);
+    const dispatch = useAppDispatch();
+    const { books, total } = useAppSelector(state => state.wishlist);
+    const user = useAppSelector((state: RootState) => state.setUser);
+    const navigate = useNavigate()
+    console.log(user, 'user');
 
+    const handlelogOut = () => {
+        localStorage.clear();
+        clearPersist();
+        window.location.reload();
+        navigate('/signin');
+    }
 
     return (
         <div className="navbar bg-base-100">
@@ -17,7 +29,8 @@ export default function Navbar() {
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                         <li><Link to={'/'}>Home</Link></li>
                         <li><Link to={'/allBooks'}>AllBooks</Link></li>
-                        <li><Link to={'/wishList'}>WishList</Link></li>
+                        <li><Link to={'/mybooks'}>MyBooks</Link></li>
+                        <li><Link to={'/wishlist'}>WishList</Link></li>
                         <li><Link to={'/addNew'}>AddNew</Link></li>
                     </ul>
                 </div>
@@ -27,7 +40,8 @@ export default function Navbar() {
                 <ul className="menu menu-horizontal px-1">
                     <li><Link to={'/'}>Home</Link></li>
                     <li><Link to={'/allBooks'}>AllBooks</Link></li>
-                    <li><Link to={'/wishList'}>WishList</Link></li>
+                    <li><Link to={'/mybooks'}>MyBooks</Link></li>
+                    <li><Link to={'/wishlist'}>WishList</Link></li>
                     <li><Link to={'/addNew'}>AddNew</Link></li>
                 </ul>
             </div>
@@ -37,16 +51,20 @@ export default function Navbar() {
                         <label tabIndex={0} className="btn btn-ghost btn-circle">
                             <div className="indicator">
                                 <span className="text-xl"><PiBookFill /></span>
-                                <span className="badge badge-sm indicator-item">8</span>
+                                <span className="badge badge-sm indicator-item">{total}</span>
                             </div>
                         </label>
                         <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-64 bg-base-100 shadow">
                             <div className="card-body">
+
                                 {
                                     books?.map((book) =>
                                         <div className="flex items-center">
-                                            <img src={book?.cover_img} width={60} alt="" />
-                                            <h3 className="text-md font-bold">{book?.title}</h3>
+                                            <img src={book?.cover_img} width={64} alt="" />
+                                            <div className="mx-2">
+                                                <h3 className="text-md font-bold">{book?.title}</h3>
+                                                <button onClick={() => dispatch(removeFromWishlist(book))} className="btn btn-error btn-sm">Remove</button>
+                                            </div>
                                         </div>
                                     )
                                 }
@@ -64,14 +82,30 @@ export default function Navbar() {
                                 <span className="text-xl"><PiUser /></span>
                             </div>
                         </label>
+
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                            <li>
-                                <a className="justify-between">
-                                    <Link to={'/mybooks'}>MyBooks</Link>
-                                </a>
-                            </li>
-                            <li><Link to={'/signin'}>Signin</Link></li>
-                            <li><Link to={'/logout'}>LogOut</Link></li>
+                            {
+                                user?.userName ?
+                                    <>
+                                        <h3 className="text-xl font-medium mx-2">{user?.userName}</h3>
+                                        <li>
+                                            <a className="justify-between">
+                                                <Link to={'/mybooks'}>MyBooks</Link>
+                                            </a>
+                                            <a className="justify-between">
+                                                <button onClick={() => handlelogOut()}>Logout</button>
+                                            </a>
+
+                                        </li>
+                                    </>
+                                    : <>
+                                        <li><Link to={'/signin'}>Signin</Link></li>
+                                        <li><Link to={'/signup'}>Signup</Link></li>
+                                    </>
+
+                            }
+
+
 
 
 

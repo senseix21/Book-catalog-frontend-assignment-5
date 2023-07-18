@@ -18,36 +18,30 @@ interface IBook {
 }
 
 
-interface IWishlist {
+interface IMyBooks {
     books: IBook[];
-    total: number;
 }
 
-const initialState: IWishlist = {
+const initialState: IMyBooks = {
     books: [],
-    total: 0,
 }
 
-const wishlistSlice = createSlice({
-    name: 'wishlist',
+const mybookSlice = createSlice({
+    name: 'mybooks',
     initialState,
     reducers: {
-        addToWishlist: (state, action: PayloadAction<IBook>) => {
+        addToMybooks: (state, action: PayloadAction<IBook>) => {
             const existing = state.books.find(book => book._id == action.payload._id);
             if (!existing) {
                 state.books.push({ ...action.payload })
-                state.total += 1
-
             }
         },
-        removeFromWishlist: (state, action: PayloadAction<IBook>) => {
+        removeFromMybooks: (state, action: PayloadAction<IBook>) => {
             state.books = state.books.filter(book => book._id !== action.payload._id);
-            state.total -= 1
-
         },
     },
 });
 
-const persistedWishlistSliceReducer = persistReducer(persistConfig, wishlistSlice.reducer);
-export const { addToWishlist, removeFromWishlist } = wishlistSlice.actions;
-export default persistedWishlistSliceReducer;
+const persistedMyBookSliceReducer = persistReducer(persistConfig, mybookSlice.reducer);
+export const { addToMybooks, removeFromMybooks } = mybookSlice.actions;
+export default persistedMyBookSliceReducer;

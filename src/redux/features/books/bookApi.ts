@@ -12,7 +12,20 @@ const bookApi = api.injectEndpoints({
             query: ({ id, updatedData }) => ({
                 url: `books/${id}`,
                 method: 'PATCH',
-                body: JSON.stringify(updatedData)
+                body: JSON.stringify(updatedData),
+                headers: {
+                    Authorization: `${localStorage.getItem('accessToken')}`,
+
+                }
+            }),
+        }),
+        deleteBook: builder.mutation({
+            query: (id) => ({
+                url: `books/${id}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `${localStorage.getItem('accessToken')}`,
+                }
             }),
         })
 
@@ -22,6 +35,7 @@ const bookApi = api.injectEndpoints({
 export const {
     useGetBooksQuery,
     useGetSingleBookQuery,
-    useEditBookMutation
+    useEditBookMutation,
+    useDeleteBookMutation
 } = bookApi;
 

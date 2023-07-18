@@ -19,13 +19,18 @@ export default function EditBook() {
 
 
     const { register, handleSubmit } = useForm<IFormInput>()
-    const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         console.log(data)
         const options = {
             id,
             data
         }
-        editbook(options)
+        const response = await editbook(options)
+        const token = localStorage.getItem('accessToken')
+        console.log(token)
+        if ('data' in response) {
+            console.log(response)
+        }
     }
 
 
@@ -62,7 +67,7 @@ export default function EditBook() {
                         <label className="label">
                             <span className="label-text">Genre</span>
                         </label>
-                        <select  {...register("genre")} value={bookData?.genre} type="text" className="input input-bordered" >
+                        <select  {...register("genre")} value={bookData?.genre} className="input input-bordered" >
                             <option disabled selected>Genre</option>
                             <option value="mystery">Mystery</option>
                             <option value="horror">Horror</option>

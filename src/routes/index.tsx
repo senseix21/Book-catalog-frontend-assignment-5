@@ -4,11 +4,12 @@ import App from "../App";
 import AllBooks from "../page/AllBooks";
 import WishList from "../page/WishList";
 import AddNew from "../page/AddNew";
-import Signin from "../page/Signup";
-import Signup from "../page/Signin";
 import NotFound from "../page/NotFound";
 import BookDetails from "../page/BookDetails";
 import EditBook from "../page/EditBook";
+import MyBooks from "../page/MyBooks";
+import Signin from "../page/Signin";
+import Signup from "../page/Signup";
 const routes = createBrowserRouter([
     {
         path: "/",
@@ -38,6 +39,10 @@ const routes = createBrowserRouter([
             {
                 path: '/wishList',
                 element: <WishList />
+            },
+            {
+                path: '/mybooks',
+                element: <MyBooks />
             },
             {
                 path: '/addNew',

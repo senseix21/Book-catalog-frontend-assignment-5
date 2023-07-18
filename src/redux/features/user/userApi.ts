@@ -1,4 +1,3 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../api/apiSlice";
 
 const bookApi = api.injectEndpoints({

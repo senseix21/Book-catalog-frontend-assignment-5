@@ -2,6 +2,9 @@
 import toast, { Toaster } from 'react-hot-toast';
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLoginUserMutation } from '../redux/features/user/userApi';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import { RootState } from '../redux/store';
+import { setUser } from '../redux/features/user/userSlice';
 
 
 interface IFormInput {
@@ -10,6 +13,7 @@ interface IFormInput {
 }
 
 export default function Signup() {
+    const dispatch = useAppDispatch();
     const [loginUser, isSuccess] = useLoginUserMutation()
 
     const success = () => toast('User Logged in successfully.');
@@ -19,22 +23,37 @@ export default function Signup() {
     const onSubmit: SubmitHandler<IFormInput> = async (loginData) => {
         try {
             const response = await loginUser(loginData)
-            const { data } = response
-            const accessToken = data.data
 
-            // Set access token in local storage
-            localStorage.setItem('accessToken', accessToken.accessToken);
+            if ('data' in response) {
+                const { data } = response
+                console.log(data.data.accessToken)
+                const { userName, email, accessToken } = data.data
 
+                // Set access token in local storage
+                localStorage.setItem('accessToken', accessToken);
+
+                // Set access token as header for future requests
+                const headers = new Headers()
+                headers.append('Authorization', `Bearer ${accessToken}`);
+
+                dispatch(setUser({
+                    userName: userName, email: email,
+                    accessToken: accessToken
+                }));
+            }
 
             if (isSuccess.isSuccess == true) {
                 success()
                 console.log(isSuccess.isSuccess)
             }
 
+
         } catch (error) {
             console.log(error)
         }
     }
+
+
 
 
     return (

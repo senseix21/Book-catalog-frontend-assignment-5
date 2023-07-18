@@ -1,26 +1,22 @@
-import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../redux/hook';
-import { IBooks } from '../types/book';
-import { addToMybooks } from '../redux/features/mybooks/mybooksSlice';
-import toast from 'react-hot-toast';
-import { removeFromWishlist } from '../redux/features/wishlist/wishlistSlice';
-
+import toast from "react-hot-toast";
+import { useAppDispatch } from "../redux/hook";
+import { removeFromMybooks } from "../redux/features/mybooks/mybooksSlice";
+import { IBooks } from "../types/book";
+import { Link } from "react-router-dom";
 
 interface IProps {
     book: IBooks
 }
 
-export default function WishlishCard({ book }: IProps) {
+export default function MyBooksCard({ book }: IProps) {
     const successMybook = () => toast('Added to mybooks successfully.');
 
     const dispatch = useAppDispatch();
-    const handdleAddToMyBooks = (book: IBooks) => {
-        dispatch(addToMybooks(book));
-        dispatch(removeFromWishlist(book))
+    const handdleRemoveFromMyBooks = (book: IBooks) => {
+        dispatch(removeFromMybooks(book));
         successMybook();
 
     }
-
     return (
         <div className='mx-auto text-black mb-10 rounded-md'>
             <Link to={`/books/${book?._id}`}>
@@ -35,8 +31,7 @@ export default function WishlishCard({ book }: IProps) {
                     <p>Publication Year: {book?.publicationYear}</p>
                 </div>
                 <div className='items-end'>
-                    <button onClick={() => dispatch(removeFromWishlist(book))} className="btn btn-error btn-wide lg:mx-3 mx-10 my-3">Remove from wishlist</button>
-                    <button onClick={() => handdleAddToMyBooks(book)} className="btn btn-accent btn-wide lg:mx-3 mx-10 ">Add to MyBooks</button>
+                    <button onClick={() => handdleRemoveFromMyBooks(book)} className="btn btn-error btn-wide lg:mx-3 mx-10 my-3">Remove from Mybooks</button>
 
                 </div>
             </div>
